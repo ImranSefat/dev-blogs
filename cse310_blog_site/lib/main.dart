@@ -1,5 +1,5 @@
 import 'package:cse310_blog_site/Auth/AuthWrapper.dart';
-import 'package:cse310_blog_site/Screens/OnboardingScreen.dart';
+import 'package:cse310_blog_site/Screens/AuthPages/OnboardingScreen.dart';
 import 'package:cse310_blog_site/Service/authentication_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';

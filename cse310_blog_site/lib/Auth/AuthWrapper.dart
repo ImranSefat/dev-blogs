@@ -1,6 +1,6 @@
-import 'package:cse310_blog_site/Screens/SignIn.dart';
-import 'package:cse310_blog_site/Screens/VerifyEmailScreen.dart';
-import 'package:cse310_blog_site/Timeline.dart';
+import 'package:cse310_blog_site/Screens/AuthPages/UserAuthPage.dart';
+import 'package:cse310_blog_site/Screens/AuthPages/VerifyEmailScreen.dart';
+import 'package:cse310_blog_site/Screens/HomePage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,14 +12,12 @@ class AuthenticationWrapper extends StatelessWidget {
 
     if (firebaseUser != null) {
       if (firebaseUser.emailVerified) {
-        return Timeline(
-          firebaseUser: firebaseUser,
-        );
+        return HomePage();
       } else {
         return VerifyEmail();
       }
     } else {
-      return SignIn();
+      return UserAuthPage();
     }
   }
 }

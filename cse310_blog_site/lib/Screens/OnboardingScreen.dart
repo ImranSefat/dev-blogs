@@ -2,6 +2,7 @@ import 'package:cse310_blog_site/Auth/AuthWrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class App extends StatelessWidget {
   @override
@@ -11,7 +12,7 @@ class App extends StatelessWidget {
     );
 
     return MaterialApp(
-      title: 'Introduction screen',
+      title: 'Welcome to Dev Blogs',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue),
       home: OnBoardingPage(),
@@ -27,7 +28,10 @@ class OnBoardingPage extends StatefulWidget {
 class _OnBoardingPageState extends State<OnBoardingPage> {
   final introKey = GlobalKey<IntroductionScreenState>();
 
-  void _onIntroEnd(context) {
+  void _onIntroEnd(context) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setBool('loaded', true);
+
     Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => AuthenticationWrapper()),
     );

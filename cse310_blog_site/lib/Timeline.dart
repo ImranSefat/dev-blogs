@@ -19,6 +19,7 @@ class _TimelineState extends State<Timeline> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Container(),
         actions: [
           IconButton(
             icon: Icon(Icons.supervised_user_circle),

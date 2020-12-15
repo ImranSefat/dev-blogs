@@ -1,6 +1,7 @@
 import 'package:cse310_blog_site/Service/authentication_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class VerifyEmail extends StatefulWidget {
@@ -12,6 +13,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
   bool enabled = true;
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text("Developer Blogs"),
@@ -36,6 +38,10 @@ class _VerifyEmailState extends State<VerifyEmail> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Container(
+            height: size.height / 5,
+            child: Lottie.asset('assets/lottie/emailVerify.json'),
+          ),
           Center(
             child: Text(
               "Please verify email to access",
@@ -51,8 +57,12 @@ class _VerifyEmailState extends State<VerifyEmail> {
           FlatButton(
             color: Colors.green,
             onPressed: enabled
-                ? () {
-                    FirebaseAuth.instance.currentUser.sendEmailVerification();
+                ? () async {
+                    await FirebaseAuth.instance.currentUser
+                        .sendEmailVerification();
+                    setState(() {
+                      enabled = false;
+                    });
                   }
                 : null,
             child: Text("Send Email Verification again"),

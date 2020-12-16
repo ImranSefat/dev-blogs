@@ -131,7 +131,6 @@ class _UserAuthPageState extends State<UserAuthPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Container(
-                            width: size.width / 9,
                             height: 40,
                             child: FlatButton(
                               color: Colors.blue,
@@ -159,7 +158,6 @@ class _UserAuthPageState extends State<UserAuthPage> {
                             ),
                           ),
                           Container(
-                            width: size.width / 9,
                             height: 40,
                             child: FlatButton(
                               color: Colors.green,

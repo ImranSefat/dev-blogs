@@ -38,10 +38,6 @@ class _VerifyEmailState extends State<VerifyEmail> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            height: size.height / 5,
-            child: Lottie.asset('assets/lottie/emailVerify.json'),
-          ),
           Center(
             child: Text(
               "Please verify email to access",

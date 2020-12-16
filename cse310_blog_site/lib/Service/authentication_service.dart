@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthenticationService {
@@ -21,6 +22,13 @@ class AuthenticationService {
       await firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
       await FirebaseAuth.instance.currentUser.sendEmailVerification();
+      CollectionReference users =
+          FirebaseFirestore.instance.collection('users');
+      await users.doc(FirebaseAuth.instance.currentUser.uid).set({
+        'premium': false,
+        'email': email,
+      });
+
       return "success";
     } on FirebaseAuthException catch (e) {
       return e.message;

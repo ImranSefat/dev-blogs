@@ -1,23 +1,17 @@
 import 'package:cse310_blog_site/Auth/AuthWrapper.dart';
-import 'package:cse310_blog_site/Screens/AuthPages/OnboardingScreen.dart';
+
 import 'package:cse310_blog_site/Service/authentication_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  bool loaded = sharedPreferences.getBool('loaded') == null
-      ? false
-      : sharedPreferences.getBool('loaded');
+
   runApp(
-    MyApp(
-      loaded: loaded,
-    ),
+    MyApp(),
   );
 }
 
@@ -43,7 +37,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: "Dev Blogs",
         debugShowCheckedModeBanner: false,
-        home: !loaded ? App() : AuthenticationWrapper(),
+        home: AuthenticationWrapper(),
       ),
     );
   }

@@ -187,21 +187,28 @@ class _UserAuthPageState extends State<UserAuthPage> {
                                     ),
                                     onPressed: () async {
                                       if (_formKey.currentState.validate()) {
-                                        setState(() {
-                                          loading = true;
-                                        });
-                                        dynamic response = await context
-                                            .read<AuthenticationService>()
-                                            .signUp(
-                                              _email,
-                                              _pass,
-                                            );
-                                        setState(() {
-                                          loading = false;
-                                        });
-                                        if (response.toString() != 'success') {
+                                        if (EmailValidator.validate(_email)) {
+                                          setState(() {
+                                            loading = true;
+                                          });
+                                          dynamic response = await context
+                                              .read<AuthenticationService>()
+                                              .signUp(
+                                                _email,
+                                                _pass,
+                                              );
+                                          setState(() {
+                                            loading = false;
+                                          });
+                                          if (response.toString() !=
+                                              'success') {
+                                            _showMaterialDialog(
+                                                response.toString());
+                                          }
+                                        } else {
                                           _showMaterialDialog(
-                                              response.toString());
+                                            "Please enter a valid email address",
+                                          );
                                         }
                                       }
                                     },

@@ -1,7 +1,9 @@
 import 'package:cse310_blog_site/Screens/TabBarPages/FlutterPosts.dart';
 import 'package:cse310_blog_site/Screens/TabBarPages/JobAlertPosts.dart';
+import 'package:cse310_blog_site/Screens/TabBarPages/LandingPage.dart';
 import 'package:cse310_blog_site/Screens/TabBarPages/ReactJSPosts.dart';
 import 'package:cse310_blog_site/Screens/TabBarPages/SoftwareDevelopmentPosts.dart';
+import 'package:cse310_blog_site/Service/ThemeChanger.dart';
 import 'package:cse310_blog_site/Service/authentication_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,16 +17,64 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => ThemeChanger(ThemeData.light()),
+        )
+      ],
+      child: HomePageWithThemeData(size: size),
+    );
+  }
+
+  _showMaterialDialog(String data) {
+    showDialog(
+      context: context,
+      builder: (_) => new AlertDialog(
+        title: new Text("Alert"),
+        content: new Text(data),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Close'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class HomePageWithThemeData extends StatefulWidget {
+  const HomePageWithThemeData({
+    Key key,
+    @required this.size,
+  }) : super(key: key);
+
+  final Size size;
+
+  @override
+  _HomePageWithThemeDataState createState() => _HomePageWithThemeDataState();
+}
+
+class _HomePageWithThemeDataState extends State<HomePageWithThemeData> {
+  bool isDarkMode = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Provider.of<ThemeChanger>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Developer Blogs Home",
+      theme: theme.getTheme(),
       home: DefaultTabController(
-        length: 4,
+        length: 5,
         child: Scaffold(
-          backgroundColor: Colors.black87,
+          // backgroundColor: Colors.black87,
           drawer: Container(
-            height: size.height,
-            width: size.width / 3,
+            height: widget.size.height,
+            width: widget.size.width / 3,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(8),
@@ -55,6 +105,23 @@ class _HomePageState extends State<HomePage> {
             ),
             centerTitle: true,
             actions: [
+              Row(
+                children: [
+                  Text("Dark Mode"),
+                  Switch(
+                    activeColor: Colors.blue,
+                    onChanged: (bool value) {
+                      if (value) {
+                        theme.setTheme(ThemeData.dark());
+                      } else {
+                        theme.setTheme(ThemeData.light());
+                      }
+                    },
+                    value: theme.getTheme() == ThemeData.dark() ? true : false,
+                  ),
+                ],
+              ),
+              SizedBox(width: 5),
               FlatButton.icon(
                 label: Text(
                   "Sign Out",
@@ -69,7 +136,7 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () {
                   context.read<AuthenticationService>().signOut();
                 },
-              )
+              ),
             ],
             bottom: TabBar(
               indicatorColor: Colors.white,
@@ -77,11 +144,11 @@ class _HomePageState extends State<HomePage> {
               tabs: [
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20.0),
-                  child: Row(
-                    children: [
-                      Text("Flutter"),
-                    ],
-                  ),
+                  child: Text("Home"),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  child: Text("Flutter"),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20.0),
@@ -107,7 +174,9 @@ class _HomePageState extends State<HomePage> {
               Flexible(
                 flex: 3,
                 child: TabBarView(
+                  physics: NeverScrollableScrollPhysics(),
                   children: [
+                    LandingPage(),
                     FlutterPosts(),
                     ReactJSPosts(),
                     SoftwareDevelopmentPosts(),
@@ -122,24 +191,6 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  _showMaterialDialog(String data) {
-    showDialog(
-      context: context,
-      builder: (_) => new AlertDialog(
-        title: new Text("Alert"),
-        content: new Text(data),
-        actions: <Widget>[
-          FlatButton(
-            child: Text('Close'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          )
-        ],
       ),
     );
   }

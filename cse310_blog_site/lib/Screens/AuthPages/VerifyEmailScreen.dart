@@ -1,7 +1,6 @@
 import 'package:cse310_blog_site/Service/authentication_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class VerifyEmail extends StatefulWidget {
@@ -13,7 +12,6 @@ class _VerifyEmailState extends State<VerifyEmail> {
   bool enabled = true;
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text("Developer Blogs"),

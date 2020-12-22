@@ -3,6 +3,7 @@ import 'package:cse310_blog_site/Screens/TabBarPages/JobAlertPosts.dart';
 import 'package:cse310_blog_site/Screens/TabBarPages/LandingPage.dart';
 import 'package:cse310_blog_site/Screens/TabBarPages/ReactJSPosts.dart';
 import 'package:cse310_blog_site/Screens/TabBarPages/SoftwareDevelopmentPosts.dart';
+import 'package:cse310_blog_site/Screens/TabBarPages/Tips&Tricks.dart';
 import 'package:cse310_blog_site/Service/ThemeChanger.dart';
 import 'package:cse310_blog_site/Service/authentication_service.dart';
 import 'package:flutter/material.dart';
@@ -24,24 +25,6 @@ class _HomePageState extends State<HomePage> {
         )
       ],
       child: HomePageWithThemeData(size: size),
-    );
-  }
-
-  _showMaterialDialog(String data) {
-    showDialog(
-      context: context,
-      builder: (_) => new AlertDialog(
-        title: new Text("Alert"),
-        content: new Text(data),
-        actions: <Widget>[
-          FlatButton(
-            child: Text('Close'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          )
-        ],
-      ),
     );
   }
 }
@@ -69,20 +52,20 @@ class _HomePageWithThemeDataState extends State<HomePageWithThemeData> {
       title: "Developer Blogs Home",
       theme: theme.getTheme(),
       home: DefaultTabController(
-        length: 5,
+        length: 6,
         child: Scaffold(
           // backgroundColor: Colors.black87,
-          drawer: Container(
-            height: widget.size.height,
-            width: widget.size.width / 3,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(8),
-                bottomRight: Radius.circular(8),
-              ),
-              color: Colors.white,
-            ),
-          ),
+          // drawer: Container(
+          //   height: widget.size.height,
+          //   width: widget.size.width / 3,
+          //   decoration: BoxDecoration(
+          //     borderRadius: BorderRadius.only(
+          //       topRight: Radius.circular(8),
+          //       bottomRight: Radius.circular(8),
+          //     ),
+          //     color: Colors.white,
+          //   ),
+          // ),
           appBar: AppBar(
             leading: Builder(
               builder: (BuildContext context) {
@@ -160,6 +143,10 @@ class _HomePageWithThemeDataState extends State<HomePageWithThemeData> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  child: Text("Tips & Tricks"),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
                   child: Text("Job Alert"),
                 ),
               ],
@@ -180,6 +167,7 @@ class _HomePageWithThemeDataState extends State<HomePageWithThemeData> {
                     FlutterPosts(),
                     ReactJSPosts(),
                     SoftwareDevelopmentPosts(),
+                    TipsAndTricks(),
                     JobAllert(),
                   ],
                 ),

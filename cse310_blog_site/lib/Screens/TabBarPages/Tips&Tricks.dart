@@ -3,16 +3,15 @@ import 'package:cse310_blog_site/Screens/TestWidgets/CreatePost.dart';
 import 'package:cse310_blog_site/Screens/TestWidgets/SampleViewPost.dart';
 import 'package:cse310_blog_site/Service/ThemeChanger.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:smooth_scroll_web/smooth_scroll_web.dart';
+import 'package:provider/provider.dart';
 
-class SoftwareDevelopmentPosts extends StatefulWidget {
+class TipsAndTricks extends StatefulWidget {
   @override
-  _SoftwareDevelopmentPostsState createState() =>
-      _SoftwareDevelopmentPostsState();
+  _TipsAndTricksState createState() => _TipsAndTricksState();
 }
 
-class _SoftwareDevelopmentPostsState extends State<SoftwareDevelopmentPosts> {
+class _TipsAndTricksState extends State<TipsAndTricks> {
   final ScrollController _scrollController = ScrollController();
   CollectionReference posts =
       FirebaseFirestore.instance.collection('postCollection');
@@ -27,12 +26,10 @@ class _SoftwareDevelopmentPostsState extends State<SoftwareDevelopmentPosts> {
         controller: _scrollController,
         children: [
           CreatePost(
-            category: "softwareDevelopment",
+            category: "tips",
           ),
           StreamBuilder<QuerySnapshot>(
-            stream: posts
-                .where('category', isEqualTo: 'softwareDevelopment')
-                .snapshots(),
+            stream: posts.where('category', isEqualTo: 'tips').snapshots(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasError) {

@@ -30,7 +30,10 @@ class _FlutterPostsState extends State<FlutterPosts> {
             category: "flutter",
           ),
           StreamBuilder<QuerySnapshot>(
-            stream: posts.where('category', isEqualTo: 'flutter').snapshots(),
+            stream: posts
+                .where('category', isEqualTo: 'flutter')
+                // .orderBy('createdAt')
+                .snapshots(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasError) {
@@ -81,6 +84,9 @@ class _FlutterPostsState extends State<FlutterPosts> {
                     description: document['description'],
                     createdAt: document['createdAt'],
                     authorEmail: document['email'],
+                    loved: document['loved'],
+                    category: document['category'],
+                    document: document,
                   );
                 }).toList(),
               );

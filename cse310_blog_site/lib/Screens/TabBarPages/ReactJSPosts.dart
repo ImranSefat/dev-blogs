@@ -80,6 +80,9 @@ class _ReactJSPostsState extends State<ReactJSPosts> {
                     description: document['description'],
                     createdAt: document['createdAt'],
                     authorEmail: document['email'],
+                    loved: document['loved'],
+                    category: document['category'],
+                    document: document,
                   );
                 }).toList(),
               );

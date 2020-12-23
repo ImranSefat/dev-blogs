@@ -1,6 +1,8 @@
+import 'package:clipboard/clipboard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cse310_blog_site/Service/ThemeChanger.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class SampleViewPost extends StatefulWidget {
@@ -8,12 +10,18 @@ class SampleViewPost extends StatefulWidget {
   final String description;
   final Timestamp createdAt;
   final String authorEmail;
+  final int loved;
+  final String category;
+  final DocumentSnapshot document;
 
   SampleViewPost({
     this.title,
     this.description,
     this.createdAt,
     this.authorEmail,
+    this.loved,
+    this.category,
+    this.document,
   });
   @override
   _SampleViewPostState createState() => _SampleViewPostState();
@@ -52,13 +60,47 @@ class _SampleViewPostState extends State<SampleViewPost> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      widget.title,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 32,
-                        letterSpacing: 1.3,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          flex: 1,
+                          child: Text(
+                            widget.title,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 32,
+                              letterSpacing: 1.3,
+                            ),
+                          ),
+                        ),
+                        Flexible(
+                          flex: 1,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              IconButton(
+                                icon: FaIcon(
+                                  FontAwesomeIcons.solidHeart,
+                                  color: Colors.red,
+                                ),
+                                onPressed: () async {
+                                  CollectionReference posts = FirebaseFirestore
+                                      .instance
+                                      .collection('postCollection');
+                                  posts.doc(widget.document.id).update({
+                                    'loved': widget.loved + 1,
+                                  });
+                                },
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text("Loved ${widget.loved} times")
+                            ],
+                          ),
+                        )
+                      ],
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -88,11 +130,18 @@ class _SampleViewPostState extends State<SampleViewPost> {
                     //   ),
                     // ),
                     SizedBox(height: 20),
-                    Text(
-                      widget.description,
-                      // desc.substring(0, 480) + "...",
-                      textAlign: TextAlign.justify,
-                      style: TextStyle(),
+                    InkWell(
+                      onDoubleTap: () {
+                        FlutterClipboard.copy(widget.description);
+                        _showMaterialDialog(
+                            "Description has been copied to clipboard");
+                      },
+                      child: Text(
+                        widget.description,
+                        // desc.substring(0, 480) + "...",
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(),
+                      ),
                     ),
                     SizedBox(
                       height: 10,
@@ -130,6 +179,24 @@ class _SampleViewPostState extends State<SampleViewPost> {
             // ),
           ],
         ),
+      ),
+    );
+  }
+
+  _showMaterialDialog(String data) {
+    showDialog(
+      context: context,
+      builder: (_context) => new AlertDialog(
+        title: new Text("Alert"),
+        content: new Text(data),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Close '),
+            onPressed: () {
+              Navigator.of(_context).pop();
+            },
+          )
+        ],
       ),
     );
   }

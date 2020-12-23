@@ -23,7 +23,6 @@ class _CreatePostState extends State<CreatePost> {
       TextEditingController();
   final TextEditingController _textEditingControllerDescription =
       TextEditingController();
-  // String selectedCategory;
   bool loading = false;
 
   @override
@@ -308,11 +307,11 @@ class _CreatePostState extends State<CreatePost> {
         _textEditingControllerTitle.clear();
         _textEditingControllerDescription.clear();
       });
-      _showMaterialDialog("Your post has been added");
+      showMaterialDialog("Your post has been added");
     });
   }
 
-  _showMaterialDialog(String data) {
+  showMaterialDialog(String data) {
     showDialog(
       context: context,
       builder: (_context) => new AlertDialog(

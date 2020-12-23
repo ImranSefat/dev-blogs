@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cse310_blog_site/Screens/ChatRoom.dart';
 import 'package:cse310_blog_site/Screens/TestWidgets/CreatePost.dart';
 import 'package:cse310_blog_site/Screens/TestWidgets/SampleViewPost.dart';
 import 'package:cse310_blog_site/Service/ThemeChanger.dart';
@@ -27,6 +28,48 @@ class _TipsAndTricksState extends State<TipsAndTricks> {
         children: [
           CreatePost(
             category: "tips",
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChatRoom(
+                      category: 'tips',
+                    ),
+                  ),
+                );
+              },
+              child: Container(
+                height: 200,
+                decoration: BoxDecoration(
+                  color: isDark ? Colors.black : Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(isDark ? 0.1 : 0.5),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: Offset(2, 3), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Chat room',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 32,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
           StreamBuilder<QuerySnapshot>(
             stream: posts.where('category', isEqualTo: 'tips').snapshots(),
@@ -71,10 +114,6 @@ class _TipsAndTricksState extends State<TipsAndTricks> {
               return ListView(
                 shrinkWrap: true,
                 children: snapshot.data.docs.map((DocumentSnapshot document) {
-                  print(document['title']);
-                  print(document['description']);
-                  print(document['createdAt']);
-                  print(document['email']);
                   return SampleViewPost(
                     title: document['title'],
                     description: document['description'],

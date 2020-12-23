@@ -60,7 +60,7 @@ class _ReactJSPostsState extends State<ReactJSPosts> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Chat room',
+                      'Chat Room',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 32,

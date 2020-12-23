@@ -67,18 +67,18 @@ class _HomePageWithThemeDataState extends State<HomePageWithThemeData> {
           //   ),
           // ),
           appBar: AppBar(
-            leading: Builder(
-              builder: (BuildContext context) {
-                return IconButton(
-                  icon: const Icon(Icons.view_sidebar),
-                  onPressed: () {
-                    Scaffold.of(context).openDrawer();
-                  },
-                  tooltip:
-                      MaterialLocalizations.of(context).openAppDrawerTooltip,
-                );
-              },
-            ),
+            // leading: Builder(
+            //   builder: (BuildContext context) {
+            //     return IconButton(
+            //       icon: const Icon(Icons.view_sidebar),
+            //       onPressed: () {
+            //         Scaffold.of(context).openDrawer();
+            //       },
+            //       tooltip:
+            //           MaterialLocalizations.of(context).openAppDrawerTooltip,
+            //     );
+            //   },
+            // ),
             title: Text(
               "Developer Blogs",
               style: TextStyle(

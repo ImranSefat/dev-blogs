@@ -1,9 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:cse310_blog_site/Screens/TestWidgets/SampleViewPost.dart';
-import 'package:cse310_blog_site/Service/ThemeChanger.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ChatRoom extends StatefulWidget {
   final String category;
@@ -15,7 +12,8 @@ class ChatRoom extends StatefulWidget {
 }
 
 class _ChatRoomState extends State<ChatRoom> {
-  final textController = TextEditingController();
+  final _textController = TextEditingController();
+  ScrollController _scrollController = new ScrollController();
   @override
   Widget build(BuildContext context) {
     // final theme = Provider.of<ThemeChanger>(context);
@@ -95,6 +93,7 @@ class _ChatRoomState extends State<ChatRoom> {
                     );
                   }
                   return ListView(
+                    controller: _scrollController,
                     // reverse: true,
                     shrinkWrap: true,
                     children:
@@ -107,6 +106,9 @@ class _ChatRoomState extends State<ChatRoom> {
                               ? Alignment.centerRight
                               : Alignment.centerLeft,
                           child: Column(
+                            crossAxisAlignment: uid == document['uid']
+                                ? CrossAxisAlignment.end
+                                : CrossAxisAlignment.start,
                             children: [
                               Container(
                                 width: MediaQuery.of(context).size.width / 3,
@@ -146,6 +148,16 @@ class _ChatRoomState extends State<ChatRoom> {
                                   ),
                                 ),
                               ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                document['email'],
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.black38,
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -166,20 +178,23 @@ class _ChatRoomState extends State<ChatRoom> {
               child: Container(
                 width: MediaQuery.of(context).size.width / 2,
                 child: TextFormField(
-                  controller: textController,
+                  controller: _textController,
                   onChanged: (value) {
                     message = value;
                   },
                   decoration: InputDecoration(
                     labelText: "Send Message",
                     suffix: IconButton(
-                      icon: Icon(Icons.send),
+                      icon: Icon(
+                        Icons.send,
+                        color: Colors.black,
+                      ),
                       onPressed: () async {
                         if (message != null) {
                           CollectionReference messages = FirebaseFirestore
                               .instance
                               .collection('messages')
-                              .doc('flutter')
+                              .doc(widget.category)
                               .collection('messageList');
 
                           messages.add({
@@ -187,9 +202,14 @@ class _ChatRoomState extends State<ChatRoom> {
                             'message': message,
                             'uid': FirebaseAuth.instance.currentUser.uid,
                             'email': FirebaseAuth.instance.currentUser.email,
-                            'category': 'flutter'
+                            'category': widget.category,
                           });
-                          textController.clear();
+                          _textController.clear();
+                          //  _scrollController.animateTo(
+                          //   _scrollController.position.maxScrollExtent,
+                          //   curve: Curves.easeOut,
+                          //   duration: const Duration(milliseconds: 300),
+                          // );
                         }
                       },
                     ),
